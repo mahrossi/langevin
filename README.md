@@ -1,2 +1,2 @@
 # langevin
-Simple code for 1d langevin dynamics
+Simple code for 1d langevin dynamics.

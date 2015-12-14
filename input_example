@@ -1,0 +1,12 @@
+&inp
+seed = 12345
+temp = 0.00095004341 
+dt = 5e-2
+nstep = 2000000
+stride = 10
+wnw = 1 
+glew = 0.0
+potname='
+ndof = 1
+&end
+
