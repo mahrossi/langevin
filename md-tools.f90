@@ -103,14 +103,15 @@ subroutine force(q, potxdata, potydata, ndata, splinedy2, f)
   integer :: i
   real*8 :: dx, fp, fm
 
-  dx=0.0001
-
-  q=q+dx
-  call splint(potxdata, potydata, splinedy2, ndata, q, fp)
-  q=q-2*dx
-  call splint(potxdata, potydata, splinedy2, ndata, q, fm)
-  q=q+dx
-  f= -(fp-fm)/(dx+dx)
+! dx=0.0001
+!
+!  q=q+dx
+!  call splint(potxdata, potydata, splinedy2, ndata, q, fp)
+!  q=q-2*dx
+  call splintder(potxdata, potydata, splinedy2, ndata, q, f)
+  f=-f
+!  q=q+dx
+!  f= -(fp-fm)/(dx+dx)
   if (q>qmax .or. q<-qmax) then
      f=f-2*1.098d-05*q
   endif

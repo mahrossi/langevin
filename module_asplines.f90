@@ -72,4 +72,37 @@ return
 
 END SUBROUTINE splint
 
+SUBROUTINE splintder(xa,ya,y2a,n,x,yder) 
+INTEGER n
+REAL*8 x,yder,xa(n),y2a(n),ya(n)
+ ! Given the arrays xa(1:n) and ya(1:n) of length n, which tabulate 
+ ! a function (with the xai’s in order), and given the array y2a(1:n), 
+ ! which is the output from spline above, and given a value of x, 
+ ! this routine returns a cubic-spline interpolated value y.
+INTEGER k,khi,klo 
+REAL*8 a,b,h
+klo=1
+khi=n
+! Here a better performance could be attained by storing the khi/klo in 
+! the previous steps, if the x are in sequence
+do while (khi-klo.gt.1)  
+   k=(khi+klo)/2
+   if(xa(k).gt.x)then 
+      khi=k
+   else 
+      klo=k
+   endif 
+enddo
+
+h=xa(khi)-xa(klo) 
+!write(*,*) x, khi, klo, xa(khi), xa(klo), h 
+
+a=(xa(khi)-x)/h  
+b=(x-xa(klo))/h
+yder=(ya(khi)-ya(klo))/h-(3.d0*(a**2)-1.d0)*h*y2a(klo)/6.d0+(3.d0*(b**2)-1)*h*y2a(khi)/6
+
+return 
+
+END SUBROUTINE splintder
+
 END MODULE SPLINES
