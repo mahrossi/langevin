@@ -52,7 +52,7 @@ program langevin
   integer argc, seed, nstep, stride, nchains, nhmts, tstride, ndata, neq, ntraj
   character *256 fname, wfile, prefix, potname, dummy
   namelist /inp/ seed, wfile, dt, temp, nstep, stride, tstride, nchains, & 
-                 nhmts, nhw, wnw, glew, potname, mass, neq, ntraj, tau, qmax
+                 nhmts, nhw, wnw, glew, potname, mass, neq, ntraj, tau
 
   real*8 :: q, p, f, wm(1,1), mass, dxsq
   real*8, allocatable :: potydata(:), potxdata(:), splinedy2(:), qt(:)
@@ -112,6 +112,7 @@ program langevin
   ENDDO
   CALL spline(potxdata, potydata, ndata, splinedy2)
 
+  qmax=potxdata(ndata)
   ! init random seed
   dum=randu(irnd)
 

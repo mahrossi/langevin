@@ -101,8 +101,9 @@ subroutine force(q, potxdata, potydata, ndata, splinedy2, f)
   integer, intent(in) :: ndata
   real*8, intent(out) :: f
   integer :: i
-  real*8 :: dx, fp, fm
+  real*8 :: fp, fm, k
 
+  k=3d-05
 ! dx=0.0001
 !
 !  q=q+dx
@@ -112,8 +113,10 @@ subroutine force(q, potxdata, potydata, ndata, splinedy2, f)
   f=-f
 !  q=q+dx
 !  f= -(fp-fm)/(dx+dx)
-  if (q>qmax .or. q<-qmax) then
-     f=f-2*1.098d-05*q
+  if (q>=qmax) then
+     f=-2*k*(q-qmax)
+  else if (q<=-qmax) then
+     f=-2*k*(q+qmax)
   endif
 
 end subroutine
@@ -141,8 +144,10 @@ subroutine pot(q, potxdata, potydata, ndata, splinedy2, v)
   v=0.d0
 
   call splint(potxdata, potydata, splinedy2, ndata, q, v)
-  if (q>qmax .or. q<-qmax) then
-     v=v+0.0039+1.098d-05*q
+  if (q>=qmax) then
+     v=3d-05*(q-qmax)**2
+  else if (q<=-qmax) then
+     v=3d-05*(q+qmax)**2
   endif
 
 end subroutine
